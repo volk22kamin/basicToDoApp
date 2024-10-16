@@ -9,8 +9,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+// Use environment variable or default to 'localhost'
+const mongoHost = process.env.MONGO_HOST || 'localhost';
+const uri = `mongodb://${mongoHost}:27017/todoapp`;
+
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/todoapp', {
+mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
