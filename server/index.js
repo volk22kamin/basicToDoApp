@@ -49,8 +49,6 @@ app.get('/api/todos', async (req, res) => {
 });
 
 app.post('/api/todos', async (req, res) => {
-    console.log(req);
-    
     try {
         // Validate that text is provided
         if (!req.body.text) {
