@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "A simple Todo application with Node.js, MongoDB and vanilla JavaScript",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "mocha --exit"
   },
   "keywords": [
     "todo",
@@ -21,6 +23,10 @@
     "mongoose": "^8.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "chai": "^4.3.7",
+    "chai-http": "^4.4.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
+    "supertest": "^7.0.0"
   }
 }

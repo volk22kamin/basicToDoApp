@@ -1,14 +1,13 @@
-// server.js
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
 
-const app = express();
+// Create Express app
+export const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-
 
 // Use environment variable or default to 'localhost'
 const mongoHost = process.env.MONGO_HOST || 'localhost';
@@ -59,7 +58,7 @@ app.post('/api/todos', async (req, res) => {
             text: req.body.text,
             completed: false
         });
-        
+
         const savedTodo = await todo.save();
         res.json(savedTodo);
     } catch (error) {
@@ -89,7 +88,13 @@ app.delete('/api/todos/:id', async (req, res) => {
     }
 });
 
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Only start the server if this file is run directly
+if (process.env.NODE_ENV !== 'test') {
+    const PORT = 3000;
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+// Export Todo model for testing
+export { Todo };
