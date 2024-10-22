@@ -1,0 +1,11 @@
+replicaCount: 1
+
+image:
+  repository: volk22kaimn/basic-to-do-app-client
+  tag: "latest"
+
+service:
+  port: 3000
+  type: NodePort
+
+environment: production
