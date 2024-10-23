@@ -5,18 +5,36 @@ import cors from 'cors';
 // Create Express app
 export const app = express();
 
+// Enhanced CORS configuration
+const corsOptions = {
+    origin: process.env.CORS_ORIGIN || '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+    optionsSuccessStatus: 204,
+    allowedHeaders: ['Content-Type', 'Authorization']
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
+
+// Log incoming requests for debugging
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin}`);
+    next();
+});
 
 // Use environment variable or default to 'localhost'
 const uri = process.env.MONGODB_URI || `mongodb://localhost:27017/todoapp`;
 
-// MongoDB connection
+// MongoDB connection with better error handling
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('MongoDB connection error:', err));
+
 
 const todoSchema = new mongoose.Schema({
     text: {
