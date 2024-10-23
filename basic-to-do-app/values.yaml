@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: volk22kaimn/basic-to-do-client
-  tag: "1.1.0"
+  tag: "1.1.1"
 
 selector:
   appName: basic-to-do-client
