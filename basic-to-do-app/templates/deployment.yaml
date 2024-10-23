@@ -8,17 +8,18 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-{{ .Chart.Name }}
+      appName: {{ .Values.selector.appName }}
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-{{ .Chart.Name }}
+        appName: {{ .Values.selector.appName }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - containerPort: {{ .Values.service.port }}
+              name: {{ .Values.container.port.name }}
           env:
             - name: ENVIRONMENT
               value: {{ .Values.environment | quote }}

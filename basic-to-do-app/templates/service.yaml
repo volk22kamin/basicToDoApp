@@ -3,13 +3,13 @@ kind: Service
 metadata:
   name: {{ include "basic-to-do-app.fullname" . }}
   labels:
-    {{- include "basic-to-do-app.labels" . | nindent 4 }}
+    appName: {{ .Values.selector.appName }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.service.port }}
       protocol: TCP
       name: http
   selector:
-    {{- include "basic-to-do-app.selectorLabels" . | nindent 4 }}
+    appName: {{ .Values.selector.appName }}
