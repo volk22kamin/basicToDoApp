@@ -4,7 +4,7 @@ appName: basic-to-do-client
 
 image:
   repository: volk22kaimn/basic-to-do-client
-  tag: "1.1.3"
+  tag: "1.1.5"
 
 selector:
   appName: basic-to-do-client
