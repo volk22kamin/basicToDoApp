@@ -1,5 +1,7 @@
 replicaCount: 1
 
+appName: basic-to-do-client
+
 image:
   repository: volk22kaimn/basic-to-do-client
   tag: "1.1.1"
@@ -10,8 +12,13 @@ selector:
 container:
   port:
     name: http 
+
 service:
+  portName: todo-client
   port: 80
   type: NodePort
+
+env: 
+  enabled: false
 
 environment: production

@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  name: {{ .Values.appName }}
   labels:
-    app: {{ .Release.Name }}-{{ .Chart.Name }}
+    app: {{ .Values.appName }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -15,11 +15,16 @@ spec:
         appName: {{ .Values.selector.appName }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Values.appName }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - containerPort: {{ .Values.service.port }}
-              name: {{ .Values.container.port.name }}
+              name: {{ .Values.service.portName }}
+          {{- if .Values.env.enabled }}
           env:
-            - name: ENVIRONMENT
-              value: {{ .Values.environment | quote }}
+          {{- range .Values.env.variables }}
+          - name: {{ .name }}
+            value: {{ .value | quote }}
+          {{- end }}
+          {{- end }}
+    

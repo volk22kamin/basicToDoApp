@@ -1,0 +1,27 @@
+replicaCount: 1
+
+appName: basic-to-do-server
+
+image:
+  repository: volk22kaimn/basic-to-do-server
+  tag: "1.1.0"
+
+selector:
+  appName: basic-to-do-server
+
+container:
+  port:
+    name: http 
+
+service:
+  portName: todo-server
+  port: 3000
+  type: NodePort
+
+env: 
+  enabled: true
+  variables:
+  - name: MONGODB_URI
+    value: mongodb://basic-to-do-db:27017/todoapp
+
+environment: production

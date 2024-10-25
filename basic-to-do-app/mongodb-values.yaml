@@ -1,0 +1,24 @@
+replicaCount: 1
+
+appName: basic-to-do-db
+
+image:
+  repository: mongo
+  tag: "latest"
+
+selector:
+  appName: basic-to-do-db
+
+container:
+  port:
+    name: http 
+
+service:
+  portName: mongodb
+  port: 27017
+  type: ClusterIP
+
+env: 
+  enabled: false
+  
+environment: production
