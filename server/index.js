@@ -1,6 +1,13 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import mongoose, { get } from 'mongoose';
 import cors from 'cors';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Create Express app
 export const app = express();
@@ -16,6 +23,17 @@ const uri = process.env.MONGODB_URI || `mongodb://localhost:27017/todoapp`;
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
+});
+
+// Handle connection error
+mongoose.connection.on('error', (err) => {
+    console.error('Database connection error:', err);
+});
+
+// Handle successful connection
+mongoose.connection.once('open', async () => {
+    console.log('Database connected successfully.');
+    await loadDefaultTasks();
 });
 
 const todoSchema = new mongoose.Schema({
@@ -36,6 +54,26 @@ const todoSchema = new mongoose.Schema({
 // Todo Model
 const Todo = mongoose.model('Todo', todoSchema);
 
+// Function to load default tasks from file
+const loadDefaultTasks = async () => {
+    console.log(__dirname);
+    
+    const filePath = path.join(__dirname, 'default-tasks.json');
+    try {
+        const fileData = fs.readFileSync(filePath, 'utf8');
+        const defaultTasks = JSON.parse(fileData);
+        
+        // Insert default tasks if none exist
+        const existingTasks = await Todo.countDocuments();
+        if (existingTasks === 0) {
+            await Todo.insertMany(defaultTasks);
+            console.log('Default tasks loaded into database.');
+        }
+    } catch (error) {
+        console.error('Error loading default tasks:', error);
+    }
+};
+
 // Routes
 app.get('/api/todos', async (req, res) => {
     try {
@@ -48,7 +86,6 @@ app.get('/api/todos', async (req, res) => {
 
 app.post('/api/todos', async (req, res) => {
     try {
-        // Validate that text is provided
         if (!req.body.text) {
             return res.status(400).json({ error: 'Text is required' });
         }
