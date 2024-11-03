@@ -22,3 +22,18 @@ env:
   enabled: false
   
 environment: production
+
+networkPolicy:
+  enabled: true
+  name: mongodb-network-policy
+  namespace: dev
+  toPodLabels:
+    - key: appName
+      value: basic-to-do-db
+  fromPodLabels: 
+    - key: appName
+      value: basic-to-do-server
+
+
+ingress:
+  enabled: false

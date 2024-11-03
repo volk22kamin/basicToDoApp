@@ -22,3 +22,13 @@ env:
   enabled: false
 
 environment: production
+
+networkPolicy:
+  enabled: false
+
+ingress:
+  enabled: false
+  name: to-do-ingress
+  host: "volk.todo.org"
+  path: /
+  serviceName: basic-to-do-client
