@@ -3,8 +3,10 @@ pipeline {
 
     stages {
         stage('a') {
-            script {
-                println 'hello world'
+            steps {
+                script {
+                    println 'hello world'
+                }
             }
         }
     }
