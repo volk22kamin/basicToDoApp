@@ -1,12 +1,14 @@
 podTemplate(label: 'docker-agent', containers: [
-    containerTemplate(name: 'docker', image: 'docker:latest', command: 'cat', ttyEnabled: true),
+    containerTemplate(name: 'docker', image: 'docker:latest', command: 'cat', ttyEnabled: true) {
+        volumeMounts << [name: 'docker-socket', mountPath: '/var/run/docker.sock', readOnly: true]
+    },
     containerTemplate(name: 'jnlp', image: 'jenkins/inbound-agent:latest', args: '${computer.jnlpmac} ${computer.name}')
 ]) {
     node('docker-agent') {
-        stage("build docker") {
-            container('docker') {
-                sh 'docker build -t basic-to-do-client:1.1.7 .'
-            }
+        stage('Build Docker') {
+            sh 'docker build -t basic-to-do-client:1.1.7 .'
         }
     }
 }
+
+volumes << [name: 'docker-socket', hostPath: [path: '/var/run/docker.sock']]
