@@ -1,14 +1,50 @@
-podTemplate(label: 'docker-agent', containers: [
-    containerTemplate(name: 'docker', image: 'docker:latest', command: 'cat', ttyEnabled: true) {
-        volumeMounts << [name: 'docker-socket', mountPath: '/var/run/docker.sock', readOnly: true]
-    },
-    containerTemplate(name: 'jnlp', image: 'jenkins/inbound-agent:latest', args: '${computer.jnlpmac} ${computer.name}')
-]) {
-    node('docker-agent') {
-        stage('Build Docker') {
-            sh 'docker build -t basic-to-do-client:1.1.7 .'
+pipeline {
+    agent {
+        kubernetes {
+            label 'docker-agent'
+            defaultContainer 'jnlp'
+            yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    jenkins/jenkins-jenkins-agent: "true"
+spec:
+  containers:
+    - name: jnlp
+      image: jenkins/inbound-agent:latest
+      args: ["\$(JENKINS_SECRET)", "\$(JENKINS_NAME)"]
+      tty: true
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "512Mi"
+        limits:
+          cpu: "1"
+          memory: "1Gi"
+    - name: docker
+      image: docker:latest
+      command:
+        - cat
+      tty: true
+      volumeMounts:
+        - name: docker-socket
+          mountPath: /var/run/docker.sock
+  volumes:
+    - name: docker-socket
+      hostPath:
+        path: /var/run/docker.sock
+            """
         }
     }
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                container('docker') {
+                    sh 'docker build -t basic-to-do-client:1.1.7 .'
+                }
+            }
+        }
+        
+    }
 }
-
-volumes << [name: 'docker-socket', hostPath: [path: '/var/run/docker.sock']]
