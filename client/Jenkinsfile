@@ -9,7 +9,9 @@ pipeline {
         stage('build image') {
             steps {
                 script {
-                    sh "docker build"
+                    container('docker') {
+                        sh 'docker build -t basic-to-do-client:1.1.7 .'
+                    }
                 }
             }
         }
