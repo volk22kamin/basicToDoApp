@@ -6,10 +6,10 @@ pipeline {
     }
 
     stages {
-        stage('a') {
+        stage('build image') {
             steps {
                 script {
-                    println 'hello world'
+                    sh "docker build"
                 }
             }
         }
