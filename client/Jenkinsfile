@@ -8,43 +8,35 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    jenkins/jenkins-jenkins-agent: "true"
+    jenkins/label: docker-agent
 spec:
   containers:
-    - name: jnlp
-      image: jenkins/inbound-agent:latest
-      args: ["\$(JENKINS_SECRET)", "\$(JENKINS_NAME)"]
-      tty: true
-      resources:
-        requests:
-          cpu: "500m"
-          memory: "512Mi"
-        limits:
-          cpu: "1"
-          memory: "1Gi"
-    - name: docker
-      image: docker:latest
-      command:
-        - cat
-      tty: true
-      volumeMounts:
-        - name: docker-socket
-          mountPath: /var/run/docker.sock
+  - name: docker-in-docker
+    image: docker:20.10-dind
+    command: ['dockerd-entrypoint.sh']
+    args: ['--host=unix:///var/run/docker.sock', '--storage-driver=overlay2']
+    tty: true
+    volumeMounts:
+      - name: docker-socket
+        mountPath: /var/run/docker.sock
+  - name: jnlp
+    image: jenkins/inbound-agent:latest
+    args: ['\${JENKINS_SECRET}', '\${JENKINS_NAME}']
+    ttyEnabled: true
   volumes:
-    - name: docker-socket
-      hostPath:
-        path: /var/run/docker.sock
-            """
+  - name: docker-socket
+    emptyDir: {}
+"""
         }
     }
     stages {
         stage('Build Docker Image') {
             steps {
-                container('docker') {
+                container('docker-in-docker') {
                     sh 'docker build -t basic-to-do-client:1.1.7 .'
                 }
             }
         }
-        
+        // Add more stages as needed
     }
 }
