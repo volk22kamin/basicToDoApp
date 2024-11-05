@@ -1,42 +1,64 @@
 pipeline {
     agent {
         kubernetes {
-            label 'docker-agent'
-            defaultContainer 'jnlp'
-            yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    jenkins/label: docker-agent
-spec:
-  containers:
-  - name: docker-in-docker
-    image: docker:20.10-dind
-    command: ['dockerd-entrypoint.sh']
-    args: ['--host=unix:///var/run/docker.sock', '--storage-driver=overlay2']
-    tty: true
-    volumeMounts:
-      - name: docker-socket
-        mountPath: /var/run/docker.sock
-  - name: jnlp
-    image: jenkins/inbound-agent:latest
-    args: ['\${JENKINS_SECRET}', '\${JENKINS_NAME}']
-    ttyEnabled: true
-  volumes:
-  - name: docker-socket
-    emptyDir: {}
-"""
+            yaml '''
+                apiVersion: v1
+                kind: Pod
+                spec:
+                  containers:
+                  - name: git
+                    image: alpine/git:latest
+                    command:
+                    - /bin/cat
+                    tty: true
+                  - name: kaniko
+                    image: gcr.io/kaniko-project/executor:debug
+                    command:
+                    - /busybox/cat
+                    tty: true
+                    volumeMounts:
+                    - name: workspace-volume
+                      mountPath: /workspace
+                    - name: docker-config
+                      mountPath: /kaniko/.docker
+                  volumes:
+                  - name: workspace-volume
+                    emptyDir: {}
+                  - name: docker-config
+                    secret:
+                      secretName: dockerhub-creds
+                      items:
+                        - key: .dockerconfigjson
+                          path: config.json
+
+            '''
+            defaultContainer 'kaniko'
         }
     }
     stages {
-        stage('Build Docker Image') {
+        stage('Clone') {
             steps {
-                container('docker-in-docker') {
-                    sh 'docker build -t basic-to-do-client:1.1.7 .'
+                container('git') {
+                    cleanWs()
+                    sh "ls -la"
+                    sh "pwd"
+                    sh '''
+                        git clone https://github.com/volk22kamin/basicToDoApp.git .
+                    '''
                 }
             }
         }
-        // Add more stages as needed
+        stage('Build and Push') {
+            steps {
+                container('kaniko') {
+                    sh '''
+                        /kaniko/executor \
+                        --context=./client \
+                        --dockerfile=./client/Dockerfile \
+                        --destination=volk22kaimn/testing:1.1.1
+                    '''
+                }
+            }
+        }
     }
 }
