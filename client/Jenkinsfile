@@ -1,63 +1,41 @@
 pipeline {
     agent {
-        kubernetes {
-            yaml '''
-                apiVersion: v1
-                kind: Pod
-                spec:
-                  containers:
-                  - name: git
-                    image: alpine/git:latest
-                    command:
-                    - /bin/cat
-                    tty: true
-                  - name: kaniko
-                    image: gcr.io/kaniko-project/executor:debug
-                    command:
-                    - /busybox/cat
-                    tty: true
-                    volumeMounts:
-                    - name: workspace-volume
-                      mountPath: /workspace
-                    - name: docker-config
-                      mountPath: /kaniko/.docker
-                  volumes:
-                  - name: workspace-volume
-                    emptyDir: {}
-                  - name: docker-config
-                    secret:
-                      secretName: dockerhub-creds
-                      items:
-                        - key: .dockerconfigjson
-                          path: config.json
-
-            '''
-            defaultContainer 'kaniko'
-        }
+      kubernetes {
+        label 'kaniko-git'
+        defaultContainer 'kaniko'
+      }
     }
     stages {
         stage('Clone') {
             steps {
                 container('git') {
-                    cleanWs()
-                    sh "ls -la"
-                    sh "pwd"
-                    sh '''
-                        git clone https://github.com/volk22kamin/basicToDoApp.git .
-                    '''
+                  cleanWs()
+                  sh '''
+                      git clone https://github.com/volk22kamin/basicToDoApp.git .
+                  '''
                 }
             }
         }
         stage('Build and Push') {
             steps {
+              script {
                 container('kaniko') {
-                    sh '''
+                  String tag = null
+                  dir('basic-to-do-app') {
+                      String valuesFile = 'client-values.yaml'
+                      def yaml = readYaml file: valuesFile
+                      tag = yaml.image.tag
+                  }
+                  if (tag != null) {
+                    sh """
                         /kaniko/executor \
                         --context=./client \
                         --dockerfile=./client/Dockerfile \
-                        --destination=volk22kaimn/testing:1.1.1
-                    '''
+                        --destination=volk22kaimn/basic-to-do-client:${tag}
+                    """
+                  }
                 }
+              }
             }
         }
     }
