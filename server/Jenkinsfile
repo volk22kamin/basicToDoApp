@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'kaniko-git-mongo'
+            label 'kaniko-git-mongo-node'
             defaultContainer 'kaniko'
         }
     }
@@ -19,8 +19,11 @@ pipeline {
         stage("Test") {
             steps {
                 script {
-                    dir("server") {
-                        sh "npm test"
+                    container("node") {
+                        dir("server") {
+                            sh "npm install"
+                            sh "npm test"
+                        }
                     }
                 }
             }
@@ -37,11 +40,11 @@ pipeline {
                         }
                         if (tag != null) {
                             sh """
-                        /kaniko/executor \
-                        --context=./server \
-                        --dockerfile=./server/Dockerfile \
-                        --destination=volk22kaimn/basic-to-do-server:${tag}
-                    """
+                                /kaniko/executor \
+                                --context=./server \
+                                --dockerfile=./server/Dockerfile \
+                                --destination=volk22kaimn/basic-to-do-server:${tag}
+                            """
                         }
                     }
                 }
