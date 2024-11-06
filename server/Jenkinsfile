@@ -19,7 +19,9 @@ pipeline {
         stage("Test") {
             steps {
                 script {
-                    
+                    dir("server") {
+                        sh "npm test"
+                    }
                 }
             }
         }

@@ -1,16 +1,16 @@
 pipeline {
     agent {
-      kubernetes {
-        label 'kaniko-git'
-        defaultContainer 'kaniko'
-      }
+        kubernetes {
+            label 'kaniko-git'
+            defaultContainer 'kaniko'
+        }
     }
     stages {
         stage('Clone') {
             steps {
                 container('git') {
-                  cleanWs()
-                  sh '''
+                    cleanWs()
+                    sh '''
                       git clone https://github.com/volk22kamin/basicToDoApp.git .
                   '''
                 }
@@ -18,24 +18,24 @@ pipeline {
         }
         stage('Build and Push') {
             steps {
-              script {
-                container('kaniko') {
-                  String tag = null
-                  dir('basic-to-do-app') {
-                      String valuesFile = 'client-values.yaml'
-                      def yaml = readYaml file: valuesFile
-                      tag = yaml.image.tag
-                  }
-                  if (tag != null) {
-                    sh """
+                script {
+                    container('kaniko') {
+                        String tag = null
+                        dir('basic-to-do-app') {
+                            String valuesFile = 'client-values.yaml'
+                            def yaml = readYaml file: valuesFile
+                            tag = yaml.image.tag
+                        }
+                        if (tag != null) {
+                            sh """
                         /kaniko/executor \
                         --context=./client \
                         --dockerfile=./client/Dockerfile \
                         --destination=volk22kaimn/basic-to-do-client:${tag}
                     """
-                  }
+                        }
+                    }
                 }
-              }
             }
         }
     }
