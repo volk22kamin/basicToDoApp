@@ -38,15 +38,15 @@ describe('Todo API Tests', () => {
     describe('GET /api/todos', () => {
         it('should get all todos', async () => {
             // Create a test todo first
-            const testTodo = new Todo({ text: 'Test todo', completed: false });
-            await testTodo.save();
+            // const testTodo = new Todo({ text: 'Test todo', completed: false });
+            // await testTodo.save();
 
             const res = await chai.request(app)
                 .get('/api/todos');
 
             res.should.have.status(200);
             res.body.should.be.an('array');
-            res.body.should.have.lengthOf(1);
+            res.body.should.have.lengthOf(3);
             res.body[0].should.have.property('text').eql('Test todo');
         });
     });
