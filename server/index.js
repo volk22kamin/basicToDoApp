@@ -33,7 +33,7 @@ mongoose.connection.on('error', (err) => {
 // Handle successful connection
 mongoose.connection.once('open', async () => {
     console.log('Database connected successfully.');
-    await loadDefaultTasks();
+    // await loadDefaultTasks();
 });
 
 const todoSchema = new mongoose.Schema({
