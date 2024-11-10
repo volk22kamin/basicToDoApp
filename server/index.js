@@ -24,7 +24,7 @@ mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
-
+ 
 // Handle connection error
 mongoose.connection.on('error', (err) => {
     console.error('Database connection error:', err);
