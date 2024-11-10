@@ -8,7 +8,7 @@ image:
 
 selector:
   appName: basic-to-do-client
-
+ 
 container:
   port:
     name: http 
