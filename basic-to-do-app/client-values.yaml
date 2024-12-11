@@ -40,3 +40,8 @@ ingress:
   host: "volk.todo.org"
   path: /
   serviceName: basic-to-do-client
+
+hpa:
+  cpuUtilization: 70
+  minReplicas: 2
+  maxReplicas: 10
