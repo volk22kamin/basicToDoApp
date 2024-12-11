@@ -41,7 +41,7 @@ ingress:
   path: /
   serviceName: basic-to-do-client
 
-1hpa:
+hpa:
   cpuUtilization: 70
   minReplicas: 2
   maxReplicas: 10
