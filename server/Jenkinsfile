@@ -45,6 +45,7 @@ pipeline {
                                 --dockerfile=./server/Dockerfile \
                                 --destination=volk22kaimn/basic-to-do-server:${tag}
                             """
+                            currentBuild.displayName = "Build #${env.BUILD_NUMBER} - tag: ${tag}"
                         }
                     }
                 }
