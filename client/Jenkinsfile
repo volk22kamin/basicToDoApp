@@ -5,14 +5,19 @@ pipeline {
             defaultContainer 'kaniko'
         }
     }
+    
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'master', description: 'Git branch to build from')
+    }
+
     stages {
         stage('Clone') {
             steps {
                 container('git') {
                     cleanWs()
-                    sh '''
-                      git clone https://github.com/volk22kamin/basicToDoApp.git .
-                  '''
+                    sh """
+                      git clone -b ${params.BRANCH_NAME} https://github.com/volk22kamin/basicToDoApp.git .
+                  """
                 }
             }
         }
