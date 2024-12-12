@@ -33,6 +33,7 @@ pipeline {
                         --dockerfile=./client/Dockerfile \
                         --destination=volk22kaimn/basic-to-do-client:${tag}
                     """
+                            currentBuild.displayName = "Build #${env.BUILD_NUMBER} - tag: ${tag}"
                         }
                     }
                 }
