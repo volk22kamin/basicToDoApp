@@ -1,5 +1,5 @@
 replicaCount: 1
-namespace: dev
+namespace: prod
 appName: basic-to-do-db
 
 image:
@@ -26,7 +26,7 @@ environment: production
 networkPolicy:
   enabled: true
   name: mongodb-network-policy
-  namespace: dev
+  namespace: prod
   toPodLabels:
     - key: appName
       value: basic-to-do-db
