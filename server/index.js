@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 
 // MongoDB connection
-const uri = process.env.MONGODB_URI || `mongodb://52.47.57.97:27017/todoapp`;
+const uri = process.env.MONGODB_URI || `mongodb://172.31.3.102:27017/todoapp`;
 
 mongoose.connect(uri);
 
