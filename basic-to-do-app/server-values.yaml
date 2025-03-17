@@ -16,8 +16,8 @@ container:
 service:
   portName: todo-server
   port: 3000
-  type: NodePort
-  nodePort: 30826
+  type: LoadBalancer
+  # nodePort: 30826
 
 env: 
   enabled: true
