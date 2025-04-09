@@ -4,7 +4,7 @@ appName: basic-to-do-client
 
 image:
   repository: volk22kaimn/basic-to-do-client
-  tag: "1.1.6"
+  tag: "1.2.1"
 
 selector:
   appName: basic-to-do-client
@@ -14,9 +14,14 @@ container:
     name: http 
 
 service:
+  enabled: true
   portName: todo-client
   port: 80
-  type: LoadBalancer
+  type: ClusterIP
+aws:
+  annotation: false
+  type: "alb"
+  scheme: "internet-facing" 
 
 resources:
   requests:
@@ -36,12 +41,12 @@ networkPolicy:
 
 ingress:
   enabled: false
-  name: to-do-ingress
+  name: basic-to-do-ingress
   host: "volk.todo.org"
   path: /
   serviceName: basic-to-do-client
 
 hpa:
   cpuUtilization: 70
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 10

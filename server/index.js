@@ -76,6 +76,8 @@ const loadDefaultTasks = async () => {
 
 // Routes
 app.get('/api/todos', async (req, res) => {
+    console.log("Got request with " + req.body.text);
+    
     try {
         const todos = await Todo.find().sort({ createdAt: -1 });
         res.json(todos);

@@ -14,9 +14,13 @@ container:
     name: http 
 
 service:
+  enabled: true
   portName: mongodb
   port: 27017
   type: ClusterIP
+  
+aws:
+  annotation: false
 
 env: 
   enabled: false

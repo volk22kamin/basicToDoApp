@@ -4,7 +4,7 @@ appName: basic-to-do-server
 
 image:
   repository: volk22kaimn/basic-to-do-server
-  tag: "1.1.0"
+  tag: "1.2.0"
 
 selector:
   appName: basic-to-do-server
@@ -14,10 +14,16 @@ container:
     name: http 
 
 service:
+  enabled: true
   portName: todo-server
   port: 3000
-  type: LoadBalancer
+  type: ClusterIP
   nodePort: 30826
+
+aws:
+  annotation: true
+  type: "alb"
+  scheme: "internet-facing"  
 
 env: 
   enabled: true
