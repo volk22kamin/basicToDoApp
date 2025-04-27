@@ -25,7 +25,10 @@ env:
   - name: MONGODB_URI
     value: mongodb://basic-to-do-db:27017/todoapp
 
-environment: production
+command:
+  enabled: false
+
+environment: dev
 
 networkPolicy:
   enabled: false
