@@ -4,7 +4,7 @@ appName: basic-to-do-server
 
 image:
   repository: volk22kaimn/basic-to-do-server
-  tag: "1.1.0"
+  tag: "2.0.0"
 
 selector:
   appName: basic-to-do-server
@@ -16,8 +16,8 @@ container:
 service:
   portName: todo-server
   port: 3000
-  type: LoadBalancer
-  # nodePort: 30826
+  type: NodePort
+  nodePort: 30828
 
 env: 
   enabled: true
@@ -25,7 +25,10 @@ env:
   - name: MONGODB_URI
     value: mongodb://basic-to-do-db:27017/todoapp
 
-environment: production
+command:
+  enabled: false
+
+environment: dev
 
 networkPolicy:
   enabled: false

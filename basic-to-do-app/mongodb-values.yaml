@@ -20,8 +20,11 @@ service:
 
 env: 
   enabled: false
+
+command:
+  enabled: false
   
-environment: production
+environment: dev
 
 networkPolicy:
   enabled: true

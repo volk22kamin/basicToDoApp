@@ -20,6 +20,10 @@ spec:
       containers:
         - name: {{ .Values.appName }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- if .Values.command.enabled }}
+          command: {{- toYaml .Values.command.command | nindent 12 }}
+          args: {{- toYaml .Values.command.args | nindent 12 }}
+          {{- end }}
           ports:
             - containerPort: {{ .Values.service.port }}
               name: {{ .Values.service.portName }}
