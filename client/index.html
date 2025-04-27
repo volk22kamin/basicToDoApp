@@ -95,9 +95,11 @@
         <ul class="todo-list" id="todoList"></ul>
     </div>
 
+    <script src="config.js"></script>
+
     <script>
-        const API_URL = "http://209.38.238.53:30827/api"  // || 'http://localhost:3000/api';
-        console.log(API_URL);
+        const API_URL = window._env_.API_URL;
+        console.log('API_URL:', API_URL);
 
         // Fetch all todos
         async function fetchTodos() {

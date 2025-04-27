@@ -26,10 +26,23 @@ resources:
     cpu: "1"
     memory: "1Gi"
 
-env: 
-  enabled: false
+env:
+  enabled: true
+  variables:
+    - name: API_URL
+      value: "http://206.81.16.246:30828/api"
 
-environment: production
+command:
+  enabled: true
+  command:
+    - "/bin/sh"
+  args:
+    - "-c"
+    - |
+      echo "window._env_ = { API_URL: \"${API_URL}\" };" > /usr/share/nginx/html/config.js && exec nginx -g 'daemon off;'
+
+
+environment: dev
 
 networkPolicy:
   enabled: false
