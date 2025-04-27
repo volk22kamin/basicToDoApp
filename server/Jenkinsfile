@@ -15,9 +15,9 @@ pipeline {
             steps {
                 container('git') {
                     cleanWs()
-                    sh '''
+                    sh """
                       git clone -b ${params.BRANCH_NAME} https://github.com/volk22kamin/basicToDoApp.git .
-                  '''
+                  """
                 }
             }
         }
