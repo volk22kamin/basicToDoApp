@@ -30,7 +30,7 @@ env:
   enabled: true
   variables:
     - name: API_URL
-      value: "http://206.81.16.246:30827/api"
+      value: "http://206.81.16.246:30828/api"
 
 command:
   enabled: true
