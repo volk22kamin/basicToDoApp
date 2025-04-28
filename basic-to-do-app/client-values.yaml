@@ -16,7 +16,7 @@ container:
 service:
   portName: todo-client
   port: 80
-  type: LoadBalancer
+  type: NodePort
 
 resources:
   requests:
