@@ -58,6 +58,10 @@ const loadDefaultTasks = async () => {
 app.use('/api/todos', todoRoutesV1);
 app.use('/api/v2/todos', todoRoutesV2);
 
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+  
 app.use('/api/todos', (req, res, next) => {
     console.log('[v1] API hit from client', new Date().toISOString());
     next();
