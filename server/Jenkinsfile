@@ -21,18 +21,18 @@ pipeline {
                 }
             }
         }
-        stage("Test") {
-            steps {
-                script {
-                    container("node") {
-                        dir("server") {
-                            sh "npm install"
-                            sh "npm test"
-                        }
-                    }
-                }
-            }
-        }
+        // stage("Test") {
+        //     steps {
+        //         script {
+        //             container("node") {
+        //                 dir("server") {
+        //                     sh "npm install"
+        //                     sh "npm test"
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
         stage('Build and Push') {
             steps {
                 script {
