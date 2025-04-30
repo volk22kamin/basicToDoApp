@@ -1,16 +1,7 @@
-// routes/todos.js
 import express from 'express';
-import mongoose from 'mongoose';
+import { Todo } from '../../models/Todo.js'; 
 
 const router = express.Router();
-
-const todoSchema = new mongoose.Schema({
-    text: { type: String, required: true },
-    completed: { type: Boolean, default: false },
-    createdAt: { type: Date, default: Date.now }
-});
-
-const Todo = mongoose.model('Todo', todoSchema);
 
 // GET all todos
 router.get('/', async (req, res) => {
