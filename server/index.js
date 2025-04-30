@@ -7,6 +7,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import todoRoutesV1 from './routes/v1/todos.js';
+import todoRoutesV2 from './routes/v2/todos.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -55,6 +56,7 @@ const loadDefaultTasks = async () => {
 
 // Use routes
 app.use('/api/todos', todoRoutesV1);
+app.use('/api/v2/todos', todoRoutesV2);
 
 // Start server
 if (process.env.NODE_ENV !== 'test') {

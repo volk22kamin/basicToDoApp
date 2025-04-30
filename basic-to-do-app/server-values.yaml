@@ -4,7 +4,7 @@ appName: basic-to-do-server
 
 image:
   repository: volk22kaimn/basic-to-do-server
-  tag: "3.0.0"
+  tag: "3.0.v2"
 
 selector:
   appName: basic-to-do-server
