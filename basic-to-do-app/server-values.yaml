@@ -21,6 +21,7 @@ readinessProbe:
   periodSeconds: 5
 
 
+
 strategy:
   enabled: true
 
