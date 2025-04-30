@@ -13,7 +13,7 @@ const todoSchema = new mongoose.Schema({
 const Todo = mongoose.model('Todo', todoSchema);
 
 // GET all todos
-router.get('/todos', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const todos = await Todo.find().sort({ createdAt: -1 });
         res.json(todos);
@@ -23,7 +23,7 @@ router.get('/todos', async (req, res) => {
 });
 
 // POST a new todo
-router.post('/todos', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         if (!req.body.text) {
             return res.status(400).json({ error: 'Text is required' });
@@ -42,7 +42,7 @@ router.post('/todos', async (req, res) => {
 });
 
 // PUT update a todo
-router.put('/todos/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const todo = await Todo.findByIdAndUpdate(
             req.params.id,
@@ -56,7 +56,7 @@ router.put('/todos/:id', async (req, res) => {
 });
 
 // DELETE a todo
-router.delete('/todos/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         await Todo.findByIdAndDelete(req.params.id);
         res.json({ message: 'Todo deleted' });

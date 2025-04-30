@@ -54,7 +54,7 @@ const loadDefaultTasks = async () => {
 };
 
 // Use routes
-app.use('/api', todoRoutesV1);
+app.use('/api/todos', todoRoutesV1);
 
 // Start server
 if (process.env.NODE_ENV !== 'test') {
