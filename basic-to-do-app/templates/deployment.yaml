@@ -9,6 +9,13 @@ spec:
   {{- if not .Values.hpa }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  {{- if .Values.strategy.enabled}}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.updateStrategy.rollingUpdate.maxSurge | default "1" }}
+      maxUnavailable: {{ .Values.updateStrategy.rollingUpdate.maxUnavailable | default "0" }}
+  {{- end }}
   selector:
     matchLabels:
       appName: {{ .Values.selector.appName }}
@@ -24,6 +31,15 @@ spec:
           command: {{- toYaml .Values.command.command | nindent 12 }}
           args: {{- toYaml .Values.command.args | nindent 12 }}
           {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.path }}
+              port: {{ .Values.readinessProbe.port }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          {{- end }}
+
           ports:
             - containerPort: {{ .Values.service.port }}
               name: {{ .Values.service.portName }}

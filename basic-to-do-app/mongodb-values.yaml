@@ -13,6 +13,13 @@ container:
   port:
     name: http 
 
+
+strategy:
+  enabled: false
+
+readinessProbe:
+  enabled: false
+
 service:
   portName: mongodb
   port: 27017
