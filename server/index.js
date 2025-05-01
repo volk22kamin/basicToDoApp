@@ -36,26 +36,9 @@ mongoose.connection.once('open', async () => {
     // await loadDefaultTasks();
 });
 
-// Load default tasks function
-const loadDefaultTasks = async () => {
-    const filePath = path.join(__dirname, 'default-tasks.json');
-    try {
-        const fileData = fs.readFileSync(filePath, 'utf8');
-        const defaultTasks = JSON.parse(fileData);
-        
-        const Todo = mongoose.model('Todo'); // Avoid redefining model
-        const existingTasks = await Todo.countDocuments();
-        if (existingTasks === 0) {
-            await Todo.insertMany(defaultTasks);
-            console.log('Default tasks loaded into database.');
-        }
-    } catch (error) {
-        console.error('Error loading default tasks:', error);
-    }
-};
 
 // Use routes
-app.use('/api/todos', todoRoutesV1);
+// app.use('/api/todos', todoRoutesV1);
 app.use('/api/v2/todos', todoRoutesV2);
 
 app.get('/health', (req, res) => {
