@@ -57,7 +57,7 @@ command:
       echo "window._env_ = { API_URL: \"${API_URL}\" };" > /usr/share/nginx/html/config.js && exec nginx -g 'daemon off;'
 
 
-environment: dev
+environment: blue
 
 networkPolicy:
   enabled: false

@@ -46,7 +46,7 @@ env:
 command:
   enabled: false
 
-environment: dev
+environment: blue
 
 networkPolicy:
   enabled: false
