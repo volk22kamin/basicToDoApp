@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.appName }}
+  name: {{ .Values.appName }}-{{ .Values.environment }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.appName }}
+    app: {{ .Values.appName }}-{{ .Values.environment }}
 spec:
   {{- if not .Values.hpa }}
   replicas: {{ .Values.replicaCount }}
@@ -18,15 +18,15 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      appName: {{ .Values.selector.appName }}
+      appName: {{ .Values.selector.appName }}-{{ .Values.environment }}
   template:
     metadata:
       labels:
-        appName: {{ .Values.selector.appName }}
+        appName: {{ .Values.selector.appName }}-{{ .Values.environment }}
     spec:
       terminationGracePeriodSeconds: 60
       containers:
-        - name: {{ .Values.appName }}
+        - name: {{ .Values.appName }}-{{ .Values.environment }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           {{- if .Values.command.enabled }}
           command: {{- toYaml .Values.command.command | nindent 12 }}
