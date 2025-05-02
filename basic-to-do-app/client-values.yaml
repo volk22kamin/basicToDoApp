@@ -9,6 +9,8 @@ image:
 selector:
   appName: basic-to-do-client
  
+dynamicService: true
+
 container:
   port:
     name: http 
