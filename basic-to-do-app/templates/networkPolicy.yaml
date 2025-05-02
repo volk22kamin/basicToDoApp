@@ -7,8 +7,8 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      {{- range $key, $val := .Values.networkPolicy.toPodLabels }}
-      {{ $key }}: {{ $val }}-{{ $.Values.environment }}
+      {{- range .Values.networkPolicy.toPodLabels }}
+      {{ .key }}: {{ printf "%s-%s" .value $.Values.environment }}
       {{- end }}
   policyTypes:
   - Ingress
@@ -16,7 +16,7 @@ spec:
   - from:
     - podSelector:
         matchLabels:
-          {{- range $key, $val := .Values.networkPolicy.fromPodLabels }}
-          {{ $key }}: {{ $val }}-{{ $.Values.environment }}
+          {{- range .Values.networkPolicy.fromPodLabels }}
+          {{ .key }}: {{ printf "%s-%s" .value $.Values.environment }}
           {{- end }}
 {{- end }}
