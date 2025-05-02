@@ -13,8 +13,6 @@ container:
   port:
     name: http 
 
-dynamicService: false 
-
 strategy:
   enabled: true
 updateStrategy:
