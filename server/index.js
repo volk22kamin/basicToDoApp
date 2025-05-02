@@ -38,8 +38,8 @@ mongoose.connection.once('open', async () => {
 
 
 // Use routes
-// app.use('/api/todos', todoRoutesV1);
-app.use('/api/v2/todos', todoRoutesV2);
+app.use('/api/v1/todos', todoRoutesV1);
+// app.use('/api/v2/todos', todoRoutesV2);
 
 app.get('/health', (req, res) => {
     res.status(200).send('OK');
