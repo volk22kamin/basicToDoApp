@@ -41,7 +41,7 @@ env:
   enabled: true
   variables:
   - name: MONGODB_URI
-    value: mongodb://basic-to-do-db:27017/todoapp
+    value: mongodb://basic-to-do-db-green:27017/todoapp
 
 command:
   enabled: false
