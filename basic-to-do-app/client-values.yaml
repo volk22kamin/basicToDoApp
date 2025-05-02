@@ -37,7 +37,7 @@ env:
   enabled: true
   variables:
     - name: API_URL
-      value: "http://46.101.112.137:30828/api/v2"
+      value: "http://46.101.112.137:30829/api/v2"
 
 readinessProbe:
   enabled: false
@@ -57,7 +57,7 @@ command:
       echo "window._env_ = { API_URL: \"${API_URL}\" };" > /usr/share/nginx/html/config.js && exec nginx -g 'daemon off;'
 
 
-environment: dev
+environment: green
 
 networkPolicy:
   enabled: false

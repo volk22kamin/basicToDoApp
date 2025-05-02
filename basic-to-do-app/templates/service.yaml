@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.appName }}
+  name: {{ .Values.appName }}-{{ .Values.environment }}
   namespace: {{ .Values.namespace }}
   labels:
-    appName: {{ .Values.selector.appName }}
+    appName: {{ .Values.selector.appName }}-{{ .Values.environment }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -16,4 +16,4 @@ spec:
       protocol: TCP
       name: {{ .Values.service.portName }}
   selector:
-    appName: {{ .Values.selector.appName }}
+    appName: {{ .Values.selector.appName }}-{{ .Values.environment }}

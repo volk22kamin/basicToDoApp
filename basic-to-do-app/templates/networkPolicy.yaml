@@ -8,7 +8,7 @@ spec:
   podSelector:
     matchLabels:
       {{- range .Values.networkPolicy.toPodLabels }}
-      {{ .key }}: {{ .value }}
+      {{ .key }}: {{ printf "%s-%s" .value $.Values.environment }}
       {{- end }}
   policyTypes:
   - Ingress
@@ -17,6 +17,6 @@ spec:
     - podSelector:
         matchLabels:
           {{- range .Values.networkPolicy.fromPodLabels }}
-          {{ .key }}: {{ .value }}
+          {{ .key }}: {{ printf "%s-%s" .value $.Values.environment }}
           {{- end }}
 {{- end }}

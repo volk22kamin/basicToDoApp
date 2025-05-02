@@ -35,7 +35,7 @@ service:
   portName: todo-server
   port: 3000
   type: NodePort
-  nodePort: 30828
+  nodePort: 30829
 
 env: 
   enabled: true
@@ -46,7 +46,7 @@ env:
 command:
   enabled: false
 
-environment: dev
+environment: green
 
 networkPolicy:
   enabled: false
