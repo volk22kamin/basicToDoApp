@@ -4,7 +4,7 @@ appName: basic-to-do-server
 
 image:
   repository: volk22kaimn/basic-to-do-server
-  tag: "2.0.0"
+  tag: "3.2.v2"
 
 selector:
   appName: basic-to-do-server
@@ -12,6 +12,24 @@ selector:
 container:
   port:
     name: http 
+
+readinessProbe:
+  enabled: true
+  path: /health
+  port: 3000
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+
+
+strategy:
+  enabled: true
+
+updateStrategy:
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+
 
 service:
   portName: todo-server

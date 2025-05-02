@@ -4,7 +4,7 @@ appName: basic-to-do-client
 
 image:
   repository: volk22kaimn/basic-to-do-client
-  tag: "2.0.0"
+  tag: "3.1.v2"
 
 selector:
   appName: basic-to-do-client
@@ -12,6 +12,13 @@ selector:
 container:
   port:
     name: http 
+
+strategy:
+  enabled: true
+updateStrategy:
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
 
 service:
   portName: todo-client
@@ -30,7 +37,15 @@ env:
   enabled: true
   variables:
     - name: API_URL
-      value: "http://206.81.16.246:30828/api"
+      value: "http://46.101.112.137:30828/api/v2"
+
+readinessProbe:
+  enabled: false
+  path: /health
+  port: 80
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
 
 command:
   enabled: true
