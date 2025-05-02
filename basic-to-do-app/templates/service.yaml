@@ -1,21 +1,3 @@
-{{- if .Values.dynamicService }}
-apiVersion: v1
-kind: Service
-metadata:
-  name: basic-to-do-client-blue
-  namespace: prod
-  labels:
-    appName: basic-to-do-client-blue
-spec:
-  type: NodePort
-  ports:
-    - port: 80
-      targetPort: 80
-      protocol: TCP
-      name: todo-client
-  selector:
-    appName: basic-to-do-client-blue
-{{- else }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -35,4 +17,3 @@ spec:
       name: {{ .Values.service.portName }}
   selector:
     appName: {{ .Values.selector.appName }}-{{ .Values.environment }}
-{{- end }}
