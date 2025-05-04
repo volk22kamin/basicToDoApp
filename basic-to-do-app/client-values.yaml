@@ -4,7 +4,7 @@ appName: basic-to-do-client
 
 image:
   repository: volk22kaimn/basic-to-do-client
-  tag: "3.1.v1"
+  tag: "istio.1"
 
 selector:
   appName: basic-to-do-client
