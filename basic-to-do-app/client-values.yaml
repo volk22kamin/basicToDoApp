@@ -71,5 +71,5 @@ ingress:
 
 hpa:
   cpuUtilization: 70
-  minReplicas: 2
-  maxReplicas: 10
+  minReplicas: 11
+  maxReplicas: 14
