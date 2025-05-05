@@ -1,4 +1,4 @@
-replicaCount: 1
+replicaCount: 11
 namespace: prod
 appName: basic-to-do-client
 
@@ -69,7 +69,7 @@ ingress:
   path: /
   serviceName: basic-to-do-client
 
-hpa:
-  cpuUtilization: 70
-  minReplicas: 11
-  maxReplicas: 14
+# hpa:
+#   cpuUtilization: 70
+#   minReplicas: 2
+#   maxReplicas: 10
